@@ -2,69 +2,174 @@
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  validate:
-    name: ${{ matrix.name }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Windows PowerShell 5.1
-            os: windows-latest
-            shell: powershell
-          - name: Windows PowerShell 7
-            os: windows-latest
-            shell: pwsh
-          - name: Ubuntu PowerShell 7
-            os: ubuntu-latest
-            shell: pwsh
-    runs-on: ${{ matrix.os }}
+  windows-powershell-51:
+    name: Windows PowerShell 5.1
+    runs-on: windows-latest
     timeout-minutes: 30
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        shell: ${{ matrix.shell }}
-        run: ./tools/Install-Dependencies.ps1 -NonInteractive
+        shell: powershell
+        run: |
+          & ./tools/Install-Dependencies.ps1 -NonInteractive
 
-      - name: Validate manifest
-        shell: ${{ matrix.shell }}
-        run: Test-ModuleManifest ./src/Neoxix.SDK/Neoxix.SDK.psd1 -ErrorAction Stop
+      - name: Validate module manifest
+        shell: powershell
+        run: |
+          Test-ModuleManifest `
+            -Path ./src/Neoxix.SDK/Neoxix.SDK.psd1 `
+            -ErrorAction Stop |
+              Out-Null
 
       - name: Analyze module
-        shell: ${{ matrix.shell }}
+        shell: powershell
         run: |
-          $findings = @(Invoke-ScriptAnalyzer `
-            -Path ./src/Neoxix.SDK `
-            -Recurse `
-            -Settings ./PSScriptAnalyzerSettings.psd1)
-          $findings | Format-Table -AutoSize
-          if ($findings | Where-Object Severity -eq 'Error') {
-              throw 'PSScriptAnalyzer reported error-level findings.'
+          $findings = @(
+              Invoke-ScriptAnalyzer `
+                  -Path ./src/Neoxix.SDK `
+                  -Recurse `
+                  -Settings ./PSScriptAnalyzerSettings.psd1
+          )
+
+          if ($findings.Count -gt 0) {
+              $findings | Format-Table -AutoSize
+          }
+
+          $errors = @(
+              $findings |
+                  Where-Object {
+                      $_.Severity -eq 'Error'
+                  }
+          )
+
+          if ($errors.Count -gt 0) {
+              throw "PSScriptAnalyzer reported $($errors.Count) error-level finding(s)."
           }
 
       - name: Run tests
-        shell: ${{ matrix.shell }}
-        run: Invoke-Pester -Path ./tests -CI -OutputFormat NUnitXml -OutputFile ./test-results.xml
+        shell: powershell
+        run: |
+          Invoke-Pester `
+            -Path ./tests `
+            -CI `
+            -OutputFormat NUnitXml `
+            -OutputFile ./test-results-windows-powershell-51.xml
 
       - name: Run build validation
-        shell: ${{ matrix.shell }}
-        run: ./build/build.ps1 -Task Validate
+        shell: powershell
+        run: |
+          & ./build/build.ps1 -Task Validate
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.name }}
-          path: |
-            test-results.xml
+          name: test-results-windows-powershell-51
+          path: test-results-windows-powershell-51.xml
           if-no-files-found: ignore
+          retention-days: 14
+
+  powershell-7:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows PowerShell 7
+            os: windows-latest
+          - name: Ubuntu PowerShell 7
+            os: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Display PowerShell version
+        shell: pwsh
+        run: |
+          $PSVersionTable
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          & ./tools/Install-Dependencies.ps1 -NonInteractive
+
+      - name: Validate module manifest
+        shell: pwsh
+        run: |
+          Test-ModuleManifest `
+            -Path ./src/Neoxix.SDK/Neoxix.SDK.psd1 `
+            -ErrorAction Stop |
+              Out-Null
+
+      - name: Analyze module
+        shell: pwsh
+        run: |
+          $findings = @(
+              Invoke-ScriptAnalyzer `
+                  -Path ./src/Neoxix.SDK `
+                  -Recurse `
+                  -Settings ./PSScriptAnalyzerSettings.psd1
+          )
+
+          if ($findings.Count -gt 0) {
+              $findings | Format-Table -AutoSize
+          }
+
+          $errors = @(
+              $findings |
+                  Where-Object {
+                      $_.Severity -eq 'Error'
+                  }
+          )
+
+          if ($errors.Count -gt 0) {
+              throw "PSScriptAnalyzer reported $($errors.Count) error-level finding(s)."
+          }
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $resultFile = if ($IsWindows) {
+              './test-results-windows-powershell-7.xml'
+          }
+          else {
+              './test-results-ubuntu-powershell-7.xml'
+          }
+
+          Invoke-Pester `
+            -Path ./tests `
+            -CI `
+            -OutputFormat NUnitXml `
+            -OutputFile $resultFile
+
+      - name: Run build validation
+        shell: pwsh
+        run: |
+          & ./build/build.ps1 -Task Validate
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}-powershell-7
+          path: test-results-*-powershell-7.xml
+          if-no-files-found: ignore
+          retention-days: 14
