@@ -1,0 +1,34 @@
+﻿name: Bug report
+description: Report a reproducible defect in Neoxix SDK.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Do not report security vulnerabilities here. Follow SECURITY.md instead.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Provide the smallest reproducible steps and sanitized output.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SDK version
+    validations:
+      required: true
+  - type: input
+    id: powershell
+    attributes:
+      label: PowerShell and operating system
+    validations:
+      required: true
