@@ -63,11 +63,14 @@ jobs:
       - name: Run tests
         shell: powershell
         run: |
-          Invoke-Pester `
-            -Path ./tests `
-            -CI `
-            -OutputFormat NUnitXml `
-            -OutputFile ./test-results-windows-powershell-51.xml
+          $configuration = New-PesterConfiguration
+          $configuration.Run.Path = './tests'
+          $configuration.Run.Exit = $true
+          $configuration.TestResult.Enabled = $true
+          $configuration.TestResult.OutputFormat = 'NUnitXml'
+          $configuration.TestResult.OutputPath = './test-results-windows-powershell-51.xml'
+
+          Invoke-Pester -Configuration $configuration
 
       - name: Run build validation
         shell: powershell
@@ -154,11 +157,14 @@ jobs:
               './test-results-ubuntu-powershell-7.xml'
           }
 
-          Invoke-Pester `
-            -Path ./tests `
-            -CI `
-            -OutputFormat NUnitXml `
-            -OutputFile $resultFile
+          $configuration = New-PesterConfiguration
+          $configuration.Run.Path = './tests'
+          $configuration.Run.Exit = $true
+          $configuration.TestResult.Enabled = $true
+          $configuration.TestResult.OutputFormat = 'NUnitXml'
+          $configuration.TestResult.OutputPath = $resultFile
+
+          Invoke-Pester -Configuration $configuration
 
       - name: Run build validation
         shell: pwsh
