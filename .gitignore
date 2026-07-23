@@ -1,0 +1,8 @@
+﻿out/
+TestResults/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

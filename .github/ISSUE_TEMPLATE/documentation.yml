@@ -1,0 +1,22 @@
+﻿name: Documentation issue
+description: Report unclear, missing, or inaccurate documentation.
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Document location
+      description: Provide the file path or page link.
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Documentation problem
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
