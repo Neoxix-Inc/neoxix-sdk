@@ -1,5 +1,6 @@
 ﻿out/
 TestResults/
+testResults.xml
 *.log
 *.tmp
 .DS_Store

@@ -1,5 +1,7 @@
 ﻿# Examples
 
+- [Environment detection script](environment-detection.ps1)
+
 ## Inspect the SDK
 
 ```powershell
