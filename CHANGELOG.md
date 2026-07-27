@@ -4,6 +4,10 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 
 ## [Unreleased]
 
+### Added
+
+- Read-only, cross-platform environment, CI, runtime, and development-tool detection through `Get-NeoxixEnvironment`.
+
 ## [0.1.0] - 2026-07-23
 
 ### Added

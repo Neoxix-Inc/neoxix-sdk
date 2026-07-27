@@ -28,3 +28,7 @@ The manifest and `VERSION` use Semantic Versioning and must remain consistent. G
 ## Quality gates
 
 A change is reviewable only after manifest validation, static analysis, Pester tests, build validation, and a repository secret-pattern scan.
+
+## Environment detection
+
+The SDK exposes read-only environment detection for the host platform, PowerShell runtime, CI provider, SDK baseline support, and selected local development tools. It returns structured data without enumerating arbitrary environment variables, inspecting authentication state, accessing a network, or modifying the machine.

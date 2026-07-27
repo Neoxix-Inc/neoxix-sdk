@@ -8,6 +8,7 @@
     Description       = 'Reusable engineering foundation for Neoxix PowerShell automation.'
     PowerShellVersion = '5.1'
     FunctionsToExport = @(
+        'Get-NeoxixEnvironment'
         'Get-NeoxixSdkInfo'
         'Start-NeoxixLog'
         'Stop-NeoxixLog'

@@ -1,6 +1,6 @@
 ﻿# Neoxix SDK
 
-Neoxix SDK is the reusable PowerShell engineering foundation for repositories maintained by Neoxix Inc. It provides a testable module architecture, runtime metadata, and structured logging.
+Neoxix SDK is the reusable PowerShell engineering foundation for repositories maintained by Neoxix Inc. It provides a testable module architecture, runtime metadata, structured logging, and read-only environment detection.
 
 > **Early development:** version 0.1.0 establishes the foundation only. APIs may evolve before a stable release.
 
@@ -24,6 +24,7 @@ No PowerShell Gallery package is published by this repository.
 ```powershell
 Import-Module .\src\Neoxix.SDK\Neoxix.SDK.psd1 -Force
 Get-NeoxixSdkInfo
+Get-NeoxixEnvironment
 
 Start-NeoxixLog -Path .\neoxix.log -EnableDebug
 Write-NeoxixInfo -Message 'Work started.'
@@ -34,6 +35,7 @@ Stop-NeoxixLog
 ## Foundation commands
 
 - `Get-NeoxixSdkInfo`
+- `Get-NeoxixEnvironment`
 - `Start-NeoxixLog` and `Stop-NeoxixLog`
 - `Write-NeoxixInfo`, `Write-NeoxixSuccess`, and `Write-NeoxixWarning`
 - `Write-NeoxixError` and `Write-NeoxixDebug`
@@ -41,6 +43,12 @@ Stop-NeoxixLog
 ## Logging security
 
 Log messages are normalized to one physical line. Recognizable named secrets, bearer credentials, common token formats, and private-key blocks are replaced with redaction markers before objects are returned or files are written. This is a defense-in-depth control, not permission to pass secrets to logging APIs.
+
+## Environment detection
+
+`Get-NeoxixEnvironment` returns one pipeline-safe object describing the platform, runtime, CI provider, SDK support, and local availability of Git, GitHub CLI, Visual Studio Code, Docker, Pester, and PSScriptAnalyzer. Detection is read-only, uses no network, and does not inspect authentication state.
+
+See the [environment detection API documentation](docs/api/Get-NeoxixEnvironment.md).
 
 ## Development
 

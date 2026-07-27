@@ -2,6 +2,7 @@
     . (Join-Path -Path $PSScriptRoot -ChildPath '..\TestHelpers.ps1')
     Import-TestModule
     $expectedFunctions = @(
+        'Get-NeoxixEnvironment'
         'Get-NeoxixSdkInfo'
         'Start-NeoxixLog'
         'Stop-NeoxixLog'
