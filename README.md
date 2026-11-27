@@ -1,3 +1,21 @@
+<!-- BEGIN NEOXIX REPOSITORY PRESENTATION -->
+<p align="center">
+  <img src="README-banner.svg" alt="NEOXIX SDK — Des outils réutilisables pour une ingénierie structurée." width="1200" />
+</p>
+
+<p align="center"><strong>Fondation PowerShell réutilisable : modules, journalisation et détection d’environnement.</strong></p>
+
+<p align="center">
+<img alt="NEOXIX: public" src="https://img.shields.io/static/v1?label=NEOXIX&amp;message=public&amp;color=36504B&amp;style=flat-square" />
+<img alt="Status: Early development" src="https://img.shields.io/static/v1?label=Status&amp;message=Early%20development&amp;color=8C5200&amp;style=flat-square" />
+<img alt="Focus: Modules" src="https://img.shields.io/static/v1?label=Focus&amp;message=Modules&amp;color=0B5C57&amp;style=flat-square" />
+</p>
+
+<p align="center"><a href="examples">Exemples</a> · <a href="docs">Documentation</a> · <a href="CONTRIBUTING.md">Contribuer</a></p>
+<!-- END NEOXIX REPOSITORY PRESENTATION -->
+
+---
+
 ﻿# Neoxix SDK
 
 Neoxix SDK is the reusable PowerShell engineering foundation for repositories maintained by Neoxix Inc. It provides a testable module architecture, runtime metadata, structured logging, and read-only environment detection.
