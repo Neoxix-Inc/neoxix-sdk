@@ -1,17 +1,13 @@
 ﻿<!-- BEGIN NEOXIX REPOSITORY PRESENTATION -->
-<p align="center">
+<p align="left">
   <img src="README-banner.svg" alt="NEOXIX SDK — Des outils réutilisables pour une ingénierie structurée." width="1200" />
 </p>
 
-<p align="center"><strong>Fondation PowerShell réutilisable : modules, journalisation et détection d’environnement.</strong></p>
+<p align="left"><strong>Fondation PowerShell réutilisable : modules, journalisation et détection d’environnement.</strong></p>
 
-<p align="center">
-<img alt="NEOXIX: public" src="https://img.shields.io/static/v1?label=NEOXIX&amp;message=public&amp;color=36504B&amp;style=flat-square" />
-<img alt="Status: Early development" src="https://img.shields.io/static/v1?label=Status&amp;message=Early%20development&amp;color=8C5200&amp;style=flat-square" />
-<img alt="Focus: Modules" src="https://img.shields.io/static/v1?label=Focus&amp;message=Modules&amp;color=0B5C57&amp;style=flat-square" />
-</p>
+<p align="left"><img alt="Statut : Early development" src="https://img.shields.io/static/v1?label=Statut&amp;message=Early%20development&amp;color=A8E063&amp;style=flat-square" /></p>
 
-<p align="center"><a href="examples">Exemples</a> · <a href="docs">Documentation</a> · <a href="CONTRIBUTING.md">Contribuer</a></p>
+<p align="left"><a href="examples">Exemples</a> &nbsp; / &nbsp; <a href="docs">Documentation</a> &nbsp; / &nbsp; <a href="CONTRIBUTING.md">Contribuer</a></p>
 <!-- END NEOXIX REPOSITORY PRESENTATION -->
 
 ---
